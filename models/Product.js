@@ -3,13 +3,13 @@ const connection = require('./connection');
 
 const create = async (name, quantity) => {
   const myDB = await connection();
-  const {insertedId} = await myDB.collection('products').insertOne({name, quantity});
+  const { insertedId } = await myDB.collection('products').insertOne({ name, quantity });
   
   return {
     _id: insertedId,
     name,
-    quantity
-  }
+    quantity,
+  };
 };
 
 const getAll = async () => {
@@ -30,10 +30,10 @@ const findById = async (id) => {
 };
 
 const findByName = async (name) => {
-  const myDb = await connection()
-  const isUniq = myDb.collection('products').findOne({name: name})
+  const myDb = await connection();
+  const isUniq = myDb.collection('products').findOne({ name });
   return isUniq;
-}
+};
 
 const updatedProduct = async (id, name, quantity) => {
   const filter = { _id: ObjectId(id) };

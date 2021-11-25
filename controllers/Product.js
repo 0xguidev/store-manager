@@ -3,11 +3,11 @@ const Products = require('../services/Product');
 const create = async (req, res) => {
   const { name, quantity } = req.body;
 
-  const {product, code, message} = await Products.create( name, quantity);
+  const { product, code, message } = await Products.create(name, quantity);
 
-  if (message) return res.status(code).json({err: {code: 'invalid_data', message: message}})
+  if (message) return res.status(code).json({ err: { code: 'invalid_data', message } });
   
-  res.status(code).json({message: product});
+  res.status(code).json({ message: product });
 };
 
 const getAll = async (_req, res) => {
@@ -32,7 +32,7 @@ const update = async (req, res) => {
 
   const isUpdated = await Products.updatedProduct(id, name, quantity);
 
-  res.status(204).end();
+  res.status(204).json({ message: isUpdated });
 };
 
 const deleteProduct = async (req, res) => {

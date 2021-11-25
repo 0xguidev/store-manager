@@ -4,6 +4,7 @@ const app = express();
 const bodyParser = require('body-parser');
 
 const Product = require('./controllers/Product');
+const sale = require('./controllers/Sale');
 
 const PORT = process.env.PORT || 3000;
 
@@ -19,6 +20,8 @@ app.get('/products', Product.getAll);
 app.get('/products/:id', Product.findById);
 app.put('/Products/:id', Product.update);
 app.delete('/products/:id', Product.deleteProduct);
+
+app.post('/sales', sale.create);
 
 app.listen(PORT, () => {
   console.log(`Servidor ouvindo na porta ${PORT}`);

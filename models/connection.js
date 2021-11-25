@@ -1,4 +1,4 @@
-const dotEnv = require('dotenv').config();
+// const dotEnv = require('dotenv').config();
 const { MongoClient } = require('mongodb');
 
 const OPTIONS = {
@@ -9,11 +9,14 @@ const OPTIONS = {
 const MONGO_DB_URL = `mongodb://${process.env.HOST || 'mongodb'}:27017/StoreManager`;
 const DB_NAME = 'StoreManager';
 
-let connection = null;
+let db = null;
 
-module.exports = () => (connection || (connection = MongoClient.connect(MONGO_DB_URL, OPTIONS)
-  .then((conn) => conn.db(DB_NAME))
-  .catch((err) => {
-    console.error(err);
-    process.exit(1);
-  })));
+const connection = () => (db
+    ? Promise.resolve(db)
+    : MongoClient.connect(MONGO_DB_URL, OPTIONS)
+    .then((conn) => {
+      db = conn.db(DB_NAME);
+      return db;
+    }));
+
+module.exports = connection;

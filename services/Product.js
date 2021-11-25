@@ -1,17 +1,13 @@
 const productModel = require('../models/Product');
-const { isValid, isNameUniq } = require('../schemas/Product');
+const { isValid } = require('../schemas/Product');
 
 const create = async (name, quantity) => {
-  const isUniq = await isNameUniq(name);
-  if(isUniq) return {code: 422, message: 'Product already exists'};
-  
-  
-  const {message, code} = isValid(name, quantity);
+  const { message, code } = isValid(name, quantity);
   if (message) return { message, code };
 
   const product = await productModel.create(name, quantity);
   
-  return {code: 201, product};
+  return { code: 201, product };
 };
 
 const getAll = async () => productModel.getAll();
@@ -22,8 +18,8 @@ const findById = async (id) => {
     if (!product) {
       return {
         error: {
-          code: 'notFound',
-          message: 'Produto nao encontrado',
+          code: 'invalid_data',
+          message: 'Wrong id format',
         },
       };
     }
@@ -32,7 +28,9 @@ const findById = async (id) => {
 };
 
 const updatedProduct = async (id, name, quantity) => {
-const updated = await productModel.updatedProduct(id, name, quantity);
+// esse codigo foi comentado pois o a feature update esta inconpleta
+// const updated = 
+await productModel.updatedProduct(id, name, quantity);
 };
 
 const deleted = async (id) => {

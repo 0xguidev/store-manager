@@ -7,7 +7,7 @@ const create = async (req, res) => {
 
   if (message) return res.status(code).json({ err: { code: 'invalid_data', message } });
   
-  res.status(code).json({ message: product });
+  res.status(code).json(product);
 };
 
 const getAll = async (_req, res) => {

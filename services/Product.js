@@ -2,7 +2,7 @@ const productModel = require('../models/Product');
 const { isValid } = require('../schemas/Product');
 
 const create = async (name, quantity) => {
-  const { message, code } = isValid(name, quantity);
+  const { message, code } = await isValid(name, quantity);
   if (message) return { message, code };
 
   const product = await productModel.create(name, quantity);

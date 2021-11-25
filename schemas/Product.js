@@ -11,7 +11,8 @@ const code = 422;
 
 const isNameUniq = async (name) => {
   const isUniq = await findByName(name);
-  return isUniq;
+  if (isUniq) return true;
+  return false;
 };
 
 const isNotNumber = (value) => (typeof value !== 'number');

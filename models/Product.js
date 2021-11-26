@@ -55,7 +55,7 @@ const deleteProduct = async (id) => {
   const myDb = await connection();
   const deleted = await myDb.collection('products').deleteOne(filter);
   
-  return deleted;
+  return deleted.result.ok;
 };
 
 module.exports = {

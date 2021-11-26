@@ -39,7 +39,9 @@ const deleteProduct = async (req, res) => {
   const { id } = req.params;
   const products = await Products.deleted(id);
   
-  if (products !== 'deleted') res.status(404).json({ message: 'not found' });
+  if (!products) res.status(422).json({
+    err: { code: 'invalid_data', message: 'Wrong id format' },
+  });
   
   res.status(200).json({ message: 'produto deletado com sucesso' });
 };

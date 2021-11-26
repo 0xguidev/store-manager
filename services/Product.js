@@ -44,12 +44,11 @@ const updatedProduct = async (id, name, quantity) => {
 };
 
 const deleted = async (id) => {
-  const productDeleted = await productModel.deleteProduct(id);
-  if (!productDeleted) {
-    return null;
-  }
+  if (!ObjectId.isValid(id)) return false;
 
-  return 'deleted';
+  const productDeleted = await productModel.deleteProduct(id);
+  if (productDeleted !== 1) return false;
+  return true;
 };
 
 module.exports = {

@@ -1,10 +1,13 @@
 const { ObjectId } = require('mongodb');
 const productModel = require('../models/Product');
-const { isValid } = require('../schemas/Product');
+const { isNameValid, isQuantValid } = require('../schemas/Product');
 
 const create = async (name, quantity) => {
-  const { message, code } = await isValid(name, quantity);
-  if (message) return { message, code };
+  const nameValidate = await isNameValid(name);
+  if (nameValidate) return nameValidate;
+
+  const quantValid = isQuantValid(quantity);
+  if (quantValid) return quantValid;
 
   const product = await productModel.create(name, quantity);
 
@@ -31,18 +34,7 @@ const updatedProduct = async (id, name, quantity) => {
       err: { code: 'invalid_data', message: 'Wrong id format' },
     };
   }
-
-  const idValidate = await productModel.findById(id);
-  if (!idValidate) {
-    return {
-      err: {
-        code: 'invalid_data',
-        message: 'Wrong id format',
-      },
-    };
-  }
-
-  const { message } = await isValid(name, quantity);
+  const { message } = isQuantValid(quantity) || await isNameValid(name);
 
   if (message) return { err: { code: 'invalid_data', message } };
 

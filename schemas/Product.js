@@ -19,16 +19,23 @@ const isNotNumber = (value) => (typeof value !== 'number');
 const isLessThanFive = (value) => (value.length < 5);
 const isNegativeNumber = (value) => (value < 1);
 
-const isValid = async (name, quantity) => {
+const isNameValid = async (name) => {
   switch (true) {
     case isLessThanFive(name): return { code, message: errors.nameLength };
     case await isNameUniq(name): return { code, message: errors.nameUniq };
+    default: return false;
+  }
+};
+
+const isQuantValid = (quantity) => {
+  switch (true) {
     case isNotNumber(quantity): return { code, message: errors.quantType };
     case isNegativeNumber(quantity): return { code, message: errors.quantLength };
-    default: return {};
+    default: return false;
   }
 };
 
 module.exports = { 
-  isValid,
+  isNameValid,
+  isQuantValid,
 };

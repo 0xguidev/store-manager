@@ -13,7 +13,7 @@ const create = async (req, res) => {
 const getAll = async (_req, res) => {
   const products = await Products.getAll();
 
-  res.status(200).json(products);
+  res.status(200).json({ products });
 };
 
 const findById = async (req, res) => {
@@ -21,8 +21,7 @@ const findById = async (req, res) => {
 
   const product = await Products.findById(id);
 
-  if (product.error) return ('deu ruim', product.code, product.message);
-
+  if (product.err) return res.status(422).json(product);
   res.status(200).json(product);
 };
 
@@ -31,8 +30,9 @@ const update = async (req, res) => {
   const { name, quantity } = req.body;
 
   const isUpdated = await Products.updatedProduct(id, name, quantity);
+  if (isUpdated.err) return res.status(422).json(isUpdated);
 
-  res.status(204).json({ message: isUpdated });
+  return res.status(200).json(isUpdated);
 };
 
 const deleteProduct = async (req, res) => {

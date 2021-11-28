@@ -11,11 +11,18 @@ const create = async (itensSold) => {
   };
 };
 
-const findById = async (id) => {
+const getAll = async () => {
+  const myDb = await connection();
+  const allSales = await myDb.collection('sales').find({}).toArray();
+  
+  return allSales;
+};
+
+const getById = async (id) => {
   if (!ObjectId.isValid(id)) return null;
 
   const myDb = await connection();
-  const product = await myDb.collection('products').findOne(new ObjectId(id));
+  const product = await myDb.collection('sales').findOne(new ObjectId(id));
 
   if (!product) return null;
   return product;
@@ -23,5 +30,6 @@ const findById = async (id) => {
 
 module.exports = {
   create,
-  findById,
+  getById,
+  getAll,
 };

@@ -22,6 +22,8 @@ app.put('/Products/:id', Product.update);
 app.delete('/products/:id', Product.deleteProduct);
 
 app.post('/sales', sale.create);
+app.get('/sales', sale.getAll);
+app.get('/sales/:id', sale.getById);
 
 app.listen(PORT, () => {
   console.log(`Servidor ouvindo na porta ${PORT}`);

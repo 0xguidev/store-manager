@@ -19,8 +19,6 @@ const getAll = async () => {
 };
 
 const getById = async (id) => {
-  if (!ObjectId.isValid(id)) return null;
-
   const myDb = await connection();
   const product = await myDb.collection('sales').findOne(new ObjectId(id));
 
@@ -28,8 +26,23 @@ const getById = async (id) => {
   return product;
 };
 
+const update = async (id, products) => {
+  const filter = { _id: ObjectId(id) };
+  const updates = {
+    $set: {
+      itensSold: products,
+    },
+  };
+  
+  const myDb = await connection();
+  const updated = await myDb.collection('sales').updateOne(filter, updates);
+  
+  return updated;
+};
+
 module.exports = {
   create,
   getById,
   getAll,
+  update,
 };

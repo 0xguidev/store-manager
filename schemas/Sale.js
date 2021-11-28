@@ -1,34 +1,22 @@
-const { findByName } = require('../models/Product');
+const { getAll } = require('../models/Product');
 
-const errors = {
-  nameLength: '"name" length must be at least 5 characters long',
-  nameUniq: 'Product already exists',
-  quantLength: '"quantity" must be larger than or equal to 1',
-  quantType: '"quantity" must be a number',
+const verifyQuant = (sale) => {
+  const sales = sale.filter(({ quantity }) => ((quantity < 1
+    || typeof quantity === 'string')
+    ? { err: { code: 'invalid_data', message: 'Wrong product ID or invalid quantity' } }
+    : null));
+  return sales;
 };
 
-const code = 422;
-
-const isIdUniq = async (name) => {
-  const isUniq = await findByName(name);
-  if (isUniq) return true;
-  return false;
+const verifyId = async (sale) => {
+  const prod = await getAll();
+  const isproductIdValid = sale.map(({ productId }) => prod
+    .find(({ _id }) => _id.toString() === productId));
+    console.log(isproductIdValid.some((item) => item === undefined));
+  return isproductIdValid.some((item) => item === undefined);
 };
 
-const isNotNumber = (value) => (typeof value !== 'number');
-const isLessThanFive = (value) => (value.length < 5);
-const isNegativeNumber = (value) => (value < 1);
-
-const isValid = async (name, quantity) => {
-  switch (true) {
-    case isLessThanFive(name): return { code, message: errors.nameLength };
-    case await isIdUniq(name): return { code, message: errors.nameUniq };
-    case isNotNumber(quantity): return { code, message: errors.quantType };
-    case isNegativeNumber(quantity): return { code, message: errors.quantLength };
-    default: return {};
-  }
-};
-
-module.exports = { 
-  isValid,
+module.exports = {
+  verifyQuant,
+  verifyId,
 };

@@ -40,9 +40,18 @@ const update = async (id, products) => {
   return updated;
 };
 
+const deleted = async (id) => {
+  const filter = { _id: ObjectId(id) };
+  const myDb = await connection();
+  const deletedSale = await myDb.collection('sales').deleteOne(filter);
+  
+  return deletedSale.result.ok;
+};
+
 module.exports = {
   create,
   getById,
   getAll,
   update,
+  deleted,
 };

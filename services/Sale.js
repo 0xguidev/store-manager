@@ -51,9 +51,18 @@ const update = async (id, products) => {
   return { _id: id, itensSold: products };
 };
 
+const deleted = async (id) => {
+  if (!ObjectId.isValid(id)) return false;
+
+  const productDeleted = await models.deleted(id);
+  if (productDeleted !== 1) return false;
+  return true;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
+  deleted,
 };

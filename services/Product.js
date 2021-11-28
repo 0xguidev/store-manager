@@ -58,8 +58,3 @@ module.exports = {
   updatedProduct,
   deleted,
 };
-
-// '"name" length must be at least 5 characters long'
-// 'Product already exists'
-// '"quantity" must be larger than or equal to 1'
-// '"quantity" must be a number'

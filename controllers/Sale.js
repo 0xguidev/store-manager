@@ -7,7 +7,7 @@ const create = async (req, res) => {
 
   if (itensSold.err) return res.status(422).json(itensSold);
 
-  res.status(200).json(itensSold);
+  return res.status(200).json(itensSold);
 };
 
 const getAll = async (_req, res) => {

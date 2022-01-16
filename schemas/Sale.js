@@ -12,7 +12,6 @@ const verifyId = async (sale) => {
   const prod = await getAll();
   const isproductIdValid = sale.map(({ productId }) => prod
     .find(({ _id }) => _id.toString() === productId));
-    console.log(isproductIdValid.some((item) => item === undefined));
   return isproductIdValid.some((item) => item === undefined);
 };
 

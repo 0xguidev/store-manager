@@ -1,4 +1,4 @@
-Nesse projeto, você será capaz de:
+Neste projeto foram trabalhado as seguintes habilidades:
 
 - Entender o funcionamento da camada de Model;
 - Delegar responsabilidades específicas para essa camada;
